@@ -50,7 +50,7 @@ namespace MessApplication
                     StartTime = new TimeSpan(7, 0, 0),
                     EndTime = new TimeSpan(10, 0, 0),
                     IsActive = true,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = new DateTime(2026, 1, 1)
                 },
                 new MealWindow
                 {
@@ -59,7 +59,7 @@ namespace MessApplication
                     StartTime = new TimeSpan(12, 0, 0),
                     EndTime = new TimeSpan(15, 0, 0),
                     IsActive = true,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = new DateTime(2026, 1, 1)
                 },
                 new MealWindow
                 {
@@ -68,7 +68,7 @@ namespace MessApplication
                     StartTime = new TimeSpan(19, 0, 0),
                     EndTime = new TimeSpan(22, 0, 0),
                     IsActive = true,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = new DateTime(2026, 1, 1)
                 }
             );
         }
