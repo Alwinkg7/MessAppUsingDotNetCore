@@ -100,6 +100,26 @@ namespace MessApplication.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("MealTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsActive = true,
+                            Name = "Breakfast"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsActive = true,
+                            Name = "Lunch"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            IsActive = true,
+                            Name = "Dinner"
+                        });
                 });
 
             modelBuilder.Entity("MessApplication.models.MealWindow", b =>
@@ -133,6 +153,35 @@ namespace MessApplication.Migrations
                     b.HasIndex("MealTypeId");
 
                     b.ToTable("MealWindows");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndTime = new TimeSpan(0, 10, 0, 0, 0),
+                            IsActive = true,
+                            MealTypeId = 1,
+                            StartTime = new TimeSpan(0, 7, 0, 0, 0)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndTime = new TimeSpan(0, 15, 0, 0, 0),
+                            IsActive = true,
+                            MealTypeId = 2,
+                            StartTime = new TimeSpan(0, 12, 0, 0, 0)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndTime = new TimeSpan(0, 22, 0, 0, 0),
+                            IsActive = true,
+                            MealTypeId = 3,
+                            StartTime = new TimeSpan(0, 19, 0, 0, 0)
+                        });
                 });
 
             modelBuilder.Entity("MessApplication.models.MonthlyBill", b =>
