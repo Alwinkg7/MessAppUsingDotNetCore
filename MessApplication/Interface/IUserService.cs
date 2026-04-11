@@ -6,5 +6,6 @@ namespace MessApplication.Interface
     {
         Task<UserResponseDto> CreateUserAsync(CreateUserDto dto);
         Task<IEnumerable<UserResponseDto>> GetAllUsersAsync();
+        
     };
 }

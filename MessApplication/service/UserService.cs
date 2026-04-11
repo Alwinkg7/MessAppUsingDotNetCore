@@ -2,6 +2,7 @@
 using MessApplication.models;
 using MessApplication.Interface;
 using Microsoft.EntityFrameworkCore;
+using BCrypt.Net;
 
 
 namespace MessApplication.service
@@ -25,9 +26,11 @@ namespace MessApplication.service
                 QrCodeValue = qrToken,
                 Email = dto.Email,
                 PhoneNumber = dto.PhoneNumber,
+                RoleId = dto.RoleId,
                 IsActive = true,
                 RegisteredAt = DateTime.UtcNow,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password)
             };
 
             _context.Users.Add(user);
@@ -52,5 +55,7 @@ namespace MessApplication.service
                 })
                 .ToListAsync();
         }
+
+        
     }
 }
