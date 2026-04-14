@@ -3,6 +3,7 @@
     public class User
     {
         public int Id { get; set; }
+        public long RoleId { get; set; }
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
@@ -11,9 +12,16 @@
         public DateTime RegisteredAt { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public string Password { get; set; }
 
         //Navigation property for related transactions
         public ICollection<Attendance> Attendances { get; set; }
         public ICollection<MonthlyBill> MonthlyBills { get; set; }
+
+        public enum UserRole
+        {
+            Admin = 1,
+            User = 2
+        }
     }
 }

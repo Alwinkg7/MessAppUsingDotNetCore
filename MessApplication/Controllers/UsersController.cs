@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MessApplication.Interface;
+﻿using MessApplication.Interface;
 using MessApplication.models.Dto;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MessApplication.Controllers
 {
@@ -33,6 +34,7 @@ namespace MessApplication.Controllers
             }
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -48,5 +50,14 @@ namespace MessApplication.Controllers
                 return StatusCode(500, "An error occurred while retrieving users");
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+
+            return Ok(user);
+        }
+
     }
 }
