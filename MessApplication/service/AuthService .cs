@@ -81,7 +81,7 @@ public class AuthService : IAuthService
         };
 
         var key = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? "THIS_IS_FALLBACK_KEY_123456789";)
+            Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? "THIS_IS_FALLBACK_KEY_123456789")
         );
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
