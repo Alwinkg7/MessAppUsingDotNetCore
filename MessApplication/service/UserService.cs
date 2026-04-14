@@ -56,6 +56,25 @@ namespace MessApplication.service
                 .ToListAsync();
         }
 
-        
+        public async Task<UserResponseDto> GetUserByIdAsync(int id)
+        {
+            var user = await _context.Users
+                .Where(u => u.Id == id)
+                .Select(u => new UserResponseDto
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    QrCodeValue = u.QrCodeValue,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    IsActive = u.IsActive
+                })
+                .FirstOrDefaultAsync();
+
+            if (user == null)
+                throw new BusinessException("User not found");
+
+            return user;
+        }
     }
 }

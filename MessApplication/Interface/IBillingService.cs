@@ -6,5 +6,7 @@ namespace MessApplication.Interface
     {
         Task GenerateMonthlyBills(int year, int month);
         Task<List<UserBillDto>> GetUserBills(int userId);
+        Task<List<BillingDto>> GetAllBills();
+        Task MarkBillAsPaid(int billId);
     }
 }

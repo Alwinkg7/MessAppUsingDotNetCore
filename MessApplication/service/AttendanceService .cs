@@ -89,5 +89,73 @@ namespace MessApplication.service
             };
 
         }
+
+        public async Task<UserAttendanceDto> GetUserAttendance(int userId)
+        {
+            var today = DateTime.Now.Date;
+
+            var attendances = await _context.Attendances
+                .Where(a => a.UserId == userId)
+                .Include(a => a.MealType)
+                .ToListAsync();
+
+            var todayData = attendances
+                .Where(a => a.AttendanceDate == today)
+                .ToList();
+
+            var todayStatus = new
+            {
+                breakfast = todayData.Any(a => a.MealType.Name == "Breakfast") ? "Completed" : "Pending",
+                lunch = todayData.Any(a => a.MealType.Name == "Lunch") ? "Completed" : "Pending",
+                dinner = todayData.Any(a => a.MealType.Name == "Dinner") ? "Completed" : "Pending"
+            };
+
+            var history = attendances
+                .OrderByDescending(a => a.AttendanceDate)
+                .Select(a => new AttendanceHistoryDto
+                {
+                    Date = a.AttendanceDate,
+                    MealType = a.MealType.Name,
+                    Time = a.ScanTime
+                })
+                .ToList();
+
+            return new UserAttendanceDto
+            {
+                Today = todayStatus,
+                History = history
+            };
+        }
+
+        public async Task<AdminDashboardDto> GetDashboardStats()
+        {
+            var today = DateTime.Now.Date;
+            var currentMonth = DateTime.Now.Month;
+            var currentYear = DateTime.Now.Year;
+
+            // Total users
+            var totalUsers = await _context.Users.CountAsync(u => u.IsActive);
+
+            // Meals served today
+            var mealsToday = await _context.Attendances
+                .CountAsync(a => a.AttendanceDate == today);
+
+            // Pending payments
+            var pendingPayments = await _context.MonthlyBills
+                .CountAsync(b => b.Status != BillStatus.Paid); // assuming 2 = Paid
+
+            // Monthly revenue (current month only)
+            var monthlyRevenue = await _context.MonthlyBills
+                .Where(b => b.Month == currentMonth && b.Year == currentYear)
+                .SumAsync(b => (decimal?)b.TotalAmount) ?? 0;
+
+            return new AdminDashboardDto
+            {
+                TotalUsers = totalUsers,
+                MealsToday = mealsToday,
+                PendingPayments = pendingPayments,
+                MonthlyRevenue = monthlyRevenue
+            };
+        }
     }
 }

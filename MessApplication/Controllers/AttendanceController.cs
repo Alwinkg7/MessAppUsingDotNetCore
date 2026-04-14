@@ -1,5 +1,6 @@
 ﻿using MessApplication.Interface;
 using MessApplication.models.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MessApplication.Controllers
@@ -31,6 +32,21 @@ namespace MessApplication.Controllers
                 _logger.LogWarning(ex, "Invalid input");
                 throw new BusinessException("Meal already consumed");
             }
+        }
+
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetUserAttendance(int userId)
+        {
+            var result = await _attendanceService.GetUserAttendance(userId);
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> GetDashboard()
+        {
+            var result = await _attendanceService.GetDashboardStats();
+            return Ok(result);
         }
     }
 }

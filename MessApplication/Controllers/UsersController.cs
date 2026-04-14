@@ -51,6 +51,13 @@ namespace MessApplication.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            var user = await _userService.GetUserByIdAsync(id);
+
+            return Ok(user);
+        }
 
     }
 }

@@ -57,4 +57,42 @@ public class BillingService : IBillingService
             })
             .ToListAsync();
     }
+
+    public async Task<List<BillingDto>> GetAllBills()
+    {
+        var bills = await _context.MonthlyBills
+            .Select(b => new BillingDto
+            {
+                Id = b.Id,
+                UserId = b.UserId,
+                Month = b.Month,
+                Year = b.Year,
+                TotalMealsConsumed = b.TotalMealsConsumed,
+                TotalAmount = b.TotalAmount,
+                Status = b.Status.ToString()
+            })
+            .OrderByDescending(b => b.Year)
+            .ThenByDescending(b => b.Month)
+            .ToListAsync();
+
+        return bills;
+    }
+
+
+    public async Task MarkBillAsPaid(int billId)
+    {
+        var bill = await _context.MonthlyBills.FindAsync(billId);
+
+        if (bill == null)
+            throw new Exception("Bill not found");
+
+        if (bill.Status == BillStatus.Paid)
+            throw new Exception("Bill already paid");
+
+        bill.Status = BillStatus.Paid;
+        bill.PaidAt = DateTime.Now;
+
+        await _context.SaveChangesAsync();
+    }
+
 }
